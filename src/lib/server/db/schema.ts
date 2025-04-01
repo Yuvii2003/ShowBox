@@ -1,10 +1,14 @@
-import { pgTable, serial, text, integer, timestamp } from 'drizzle-orm/pg-core';
+import { pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+
+export const userType = pgEnum('user_type', ['student', 'faculty', 'admin']);
 
 export const user = pgTable('user', {
 	id: text('id').primaryKey(),
-	age: integer('age'),
-	username: text('username').notNull().unique(),
-	passwordHash: text('password_hash').notNull()
+	name: text('name').notNull(),
+	email: text('email').notNull().unique(),
+	registrationNumber: text('registration_number').notNull(),
+	userType: userType().default('student').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
 });
 
 export const session = pgTable('session', {
@@ -16,5 +20,7 @@ export const session = pgTable('session', {
 });
 
 export type Session = typeof session.$inferSelect;
+export type NewSession = typeof session.$inferInsert;
 
 export type User = typeof user.$inferSelect;
+export type Newuser = typeof user.$inferInsert;
