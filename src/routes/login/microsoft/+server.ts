@@ -5,7 +5,7 @@ import { microsoft } from '$lib/server/db';
 export async function GET(event: RequestEvent): Promise<Response> {
 	const state = generateState();
 	const codeVerifier = generateCodeVerifier();
-	const url = microsoft.createAuthorizationURL(state, codeVerifier, ['openid', 'profile']);
+	const url = microsoft.createAuthorizationURL(state, codeVerifier, ['openid', 'profile', 'email']);
 
 	event.cookies.set('microsoft_oauth_state', state, {
 		path: '/',

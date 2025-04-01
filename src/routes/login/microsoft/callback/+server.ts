@@ -10,14 +10,11 @@ import {
 	setSessionTokenCookie
 } from '$lib/server/auth';
 
-// type GoogleClaims = {
-//     sub: string;
-//     email?: string;
-//     email_verified?: boolean;
-//     name?: string;
-//     picture?: string;
-//     locale?: string;
-// };
+type microsoftClaims = {
+	sub: string;
+	email?: string;
+	name?: string;
+};
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');
@@ -46,46 +43,46 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			status: 400
 		});
 	}
-	//
-	const claims = decodeIdToken(tokens.idToken());
+
+	const claims = decodeIdToken(tokens.idToken()) as microsoftClaims;
 	console.log(claims);
-	// const googleUserId = claims.sub;
+	const microsoftUserId = claims.sub;
 
-	// const existingUser = await getUserFromOAuthId(googleUserId);
+	const existingUser = await getUserFromOAuthId(microsoftUserId);
 
-	// if (existingUser?.id) {
-	//     const sessionToken = generateSessionToken();
-	//     const session = await createSession(sessionToken, existingUser.id);
-	//     setSessionTokenCookie(event, sessionToken, session.expiresAt);
-	//     return new Response(null, {
-	//         status: 302,
-	//         headers: {
-	//             Location: '/'
-	//         }
-	//     });
-	// }
+	if (existingUser?.id) {
+		const sessionToken = generateSessionToken();
+		const session = await createSession(sessionToken, existingUser.id);
+		setSessionTokenCookie(event, sessionToken, session.expiresAt);
+		return new Response(null, {
+			status: 302,
+			headers: {
+				Location: '/'
+			}
+		});
+	}
 
-	// const registrationNumber = claims.name?.split(' ').pop();
-	// const userType = claims.name?.split(' ').length === 10 ? 'student' : 'faculty';
-	// if (!registrationNumber) {
-	//     return new Response(null, {
-	//         status: 409
-	//     });
-	// }
+	const registrationNumber = claims.name;
+	const userType = claims.name?.length === 10 ? 'student' : 'faculty';
+	if (!registrationNumber) {
+		return new Response(null, {
+			status: 409
+		});
+	}
 
-	// const user = await createUser({
-	//     oauthId: googleUserId,
-	//     name: claims.name || '',
-	//     email: claims.email || '',
-	//     image: claims.picture || '',
-	//     registrationNumber,
-	//     oauthType: 'google',
-	//     userType
-	// });
+	const user = await createUser({
+		oauthId: microsoftUserId,
+		name: claims.name || '',
+		email: claims.email || '',
+		registrationNumber,
+		oauthType: 'microsoft',
+		userType
+	});
 
-	// const sessionToken = generateSessionToken();
-	// const session = await createSession(sessionToken, user.id);
-	// setSessionTokenCookie(event, sessionToken, session.expiresAt);
+	const sessionToken = generateSessionToken();
+	const session = await createSession(sessionToken, user.id);
+	setSessionTokenCookie(event, sessionToken, session.expiresAt);
+
 	return new Response(null, {
 		status: 302,
 		headers: {

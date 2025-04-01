@@ -88,7 +88,7 @@ export async function createUser({
 	userType,
 	oauthType
 }: table.NewUser) {
-	if (!oauthId || !name || !email || !image || !registrationNumber || !oauthType) {
+	if (!oauthId || !name || !email || !registrationNumber || !oauthType) {
 		throw new Error('Missing required fields');
 	}
 	const userRecord = {

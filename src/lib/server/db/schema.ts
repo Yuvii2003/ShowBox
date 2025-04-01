@@ -2,7 +2,7 @@ import { sql } from 'drizzle-orm';
 import { pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const userType = pgEnum('user_type', ['student', 'faculty', 'admin']);
-export const oauthType = pgEnum('oauth_type', ['google', 'github']);
+export const oauthType = pgEnum('oauth_type', ['google', 'microsoft']);
 
 export const user = pgTable('user', {
 	id: text('id')
@@ -12,7 +12,7 @@ export const user = pgTable('user', {
 	oauthType: oauthType(),
 	name: text('name').notNull(),
 	email: text('email').notNull().unique(),
-	image: text('image').notNull(),
+	image: text('image'),
 	registrationNumber: text('registration_number').notNull(),
 	userType: userType().default('student').notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
