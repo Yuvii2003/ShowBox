@@ -13,7 +13,7 @@
 			</div>
 
 			<div class="mt-6">
-				<Button type="button" variant="outline" class="w-full">
+				<Button type="button" variant="outline" class="w-full" href="/login/google">
 					<Google />
 					<span>Google</span>
 				</Button>
@@ -26,9 +26,9 @@
 			</div>
 
 			<div class="mt-6">
-				<Button type="button" variant="outline" class="w-full">
+				<Button type="button" variant="outline" class="w-full" href="/login/microsoft">
 					<Github />
-					<span>GitHub</span>
+					<span>Microsoft</span>
 				</Button>
 			</div>
 		</div>

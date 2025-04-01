@@ -30,8 +30,7 @@ export async function validateSessionToken(token: string) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const [result] = await db
 		.select({
-			// Adjust user table here to tweak returned data
-			user: { id: table.user.id, username: table.user.username },
+			user: table.user,
 			session: table.session
 		})
 		.from(table.session)
@@ -78,4 +77,38 @@ export function deleteSessionTokenCookie(event: RequestEvent) {
 	event.cookies.delete(sessionCookieName, {
 		path: '/'
 	});
+}
+
+export async function createUser({
+	oauthId,
+	name,
+	email,
+	image,
+	registrationNumber,
+	userType,
+	oauthType
+}: table.NewUser) {
+	if (!oauthId || !name || !email || !image || !registrationNumber || !oauthType) {
+		throw new Error('Missing required fields');
+	}
+	const userRecord = {
+		oauthId,
+		name,
+		email,
+		image,
+		registrationNumber,
+		oauthType,
+		userType: userType ?? 'student'
+	};
+	const [user] = await db.insert(table.user).values(userRecord).returning();
+	return user;
+}
+
+export async function getUserFromOAuthId(oauthId: string) {
+	const [userId] = await db
+		.select({ id: table.user.id })
+		.from(table.user)
+		.where(eq(table.user.oauthId, oauthId));
+
+	return userId;
 }
