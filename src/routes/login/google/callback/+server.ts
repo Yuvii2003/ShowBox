@@ -64,12 +64,12 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	}
 
 	const registrationNumber = claims.name?.split(' ').pop();
-	const userType = claims.name?.split(' ').length === 10 ? 'student' : 'faculty';
 	if (!registrationNumber) {
 		return new Response(null, {
 			status: 409
 		});
 	}
+	const userType = registrationNumber.length === 10 ? 'student' : 'faculty';
 
 	const user = await createUser({
 		oauthId: googleUserId,

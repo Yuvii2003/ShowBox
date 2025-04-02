@@ -11,7 +11,8 @@
 	import Sparkles from '@lucide/svelte/icons/sparkles';
 	import { page } from '$app/state';
 
-	const sidebar = useSidebar();
+	const sidebar = useSidebar(); 
+	console.log(page.data.user)
 </script>
 
 <Sidebar.Menu>
@@ -26,9 +27,9 @@
 					>
 						<Avatar.Root class="h-8 w-8 rounded-lg">
 							{#if page.data.user.image}
-								<Avatar.Image src={page.data.user.image} alt={page.data.user.name} />
+								<Avatar.Image src={page.data.user.image} referrerpolicy="no-referrer" alt={page.data.user.name} />
 							{:else}
-								<Avatar.Fallback class="rounded-lg">CN</Avatar.Fallback>
+								<Avatar.Fallback class="rounded-lg">{page.data.user.registrationNumber[0]+page.data.user.registrationNumber[1]}</Avatar.Fallback>
 							{/if}
 						</Avatar.Root>
 						<div class="grid flex-1 text-left text-sm leading-tight">
@@ -49,9 +50,9 @@
 					<div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 						<Avatar.Root class="h-8 w-8 rounded-lg">
 							{#if page.data.user.image}
-								<Avatar.Image src={page.data.user.image} alt={page.data.user.name} />
+								<Avatar.Image src={page.data.user.image} referrerpolicy="no-referrer" alt={page.data.user.name} />
 							{:else}
-								<Avatar.Fallback class="rounded-lg">CN</Avatar.Fallback>
+								<Avatar.Fallback class="rounded-lg">{page.data.user.registrationNumber[0]+page.data.user.registrationNumber[1]}</Avatar.Fallback>
 							{/if}
 						</Avatar.Root>
 						<div class="grid flex-1 text-left text-sm leading-tight">
