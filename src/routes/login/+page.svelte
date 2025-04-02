@@ -1,6 +1,5 @@
 <script>
-	import Github from '$lib/components/custom/logos/Github.svelte';
-	import Google from '$lib/components/custom/logos/Google.svelte';
+	import { Google, Microsoft } from '$lib/components/custom/logos/index';
 	import { Button } from '$lib/components/ui/button/index';
 </script>
 
@@ -21,13 +20,13 @@
 
 			<div class="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
 				<hr class="border-dashed" />
-				<span class="text-muted-foreground text-xs">Or continue With</span>
+				<span class="text-muted-foreground text-xs">Or Continue With</span>
 				<hr class="border-dashed" />
 			</div>
 
 			<div class="mt-6">
 				<Button type="button" variant="outline" class="w-full" href="/login/microsoft">
-					<Github />
+					<Microsoft />
 					<span>Microsoft</span>
 				</Button>
 			</div>

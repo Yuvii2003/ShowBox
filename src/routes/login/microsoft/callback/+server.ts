@@ -45,7 +45,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	}
 
 	const claims = decodeIdToken(tokens.idToken()) as microsoftClaims;
-	console.log(claims);
 	const microsoftUserId = claims.sub;
 
 	const existingUser = await getUserFromOAuthId(microsoftUserId);

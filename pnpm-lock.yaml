@@ -36,6 +36,9 @@ importers:
       '@eslint/js':
         specifier: ^9.18.0
         version: 9.23.0
+      '@lucide/svelte':
+        specifier: ^0.487.0
+        version: 0.487.0(svelte@5.25.5)
       '@sveltejs/adapter-vercel':
         specifier: ^5.5.2
         version: 5.6.3(@sveltejs/kit@2.20.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.25.5)(vite@6.2.4(jiti@1.21.7)(yaml@2.7.1)))(svelte@5.25.5)(vite@6.2.4(jiti@1.21.7)(yaml@2.7.1)))(rollup@4.38.0)
@@ -810,6 +813,11 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@lucide/svelte@0.487.0':
+    resolution: {integrity: sha512-27b/wUzWrqDJu97+1iSV2X8L2JGRWH/mAWAjHgazWxhGxVu/kS0p3SbNu6w3skNmQNEku33EKU1v44IVwULzbw==}
+    peerDependencies:
+      svelte: ^5
 
   '@mapbox/node-pre-gyp@2.0.0':
     resolution: {integrity: sha512-llMXd39jtP0HpQLVI37Bf1m2ADlEb35GYSh1SDSLsBhR+5iCxiNGlT31yqbNtVHygHAtMy6dWFERpU2JgufhPg==}
@@ -2792,6 +2800,10 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@lucide/svelte@0.487.0(svelte@5.25.5)':
+    dependencies:
+      svelte: 5.25.5
 
   '@mapbox/node-pre-gyp@2.0.0':
     dependencies:

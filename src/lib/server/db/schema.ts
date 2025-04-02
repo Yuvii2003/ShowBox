@@ -26,8 +26,24 @@ export const session = pgTable('session', {
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
 });
 
+export const project = pgTable('project', {
+	id: text('id').primaryKey().notNull(),
+	awsId: text('aws_id').notNull(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => user.id),
+	name: text('name').notNull(),
+	description: text('description').notNull(),
+	contributors: text('contributors').array().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+});
+
 export type Session = typeof session.$inferSelect;
 export type NewSession = typeof session.$inferInsert;
 
 export type User = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
+
+export type Project = typeof project.$inferSelect;
+export type NewProject = typeof project.$inferInsert;
