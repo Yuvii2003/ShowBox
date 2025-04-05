@@ -9,10 +9,19 @@
 	import CreditCard from '@lucide/svelte/icons/credit-card';
 	import LogOut from '@lucide/svelte/icons/log-out';
 	import Sparkles from '@lucide/svelte/icons/sparkles';
+	// import { toast } from 'svelte-sonner';
 	import { page } from '$app/state';
+	import { enhance } from '$app/forms';
 
-	const sidebar = useSidebar(); 
-	console.log(page.data.user)
+	const sidebar = useSidebar();
+	// async function handleLogout() {
+	// 	const res = await fetch('/api/logout');
+	// 	if (res.ok) {
+	// 		toast.success('User logged out!');
+	// 		page.data.user = null;
+	// 		window.location.reload();
+	// 	}
+	// }
 </script>
 
 <Sidebar.Menu>
@@ -27,9 +36,15 @@
 					>
 						<Avatar.Root class="h-8 w-8 rounded-lg">
 							{#if page.data.user.image}
-								<Avatar.Image src={page.data.user.image} referrerpolicy="no-referrer" alt={page.data.user.name} />
+								<Avatar.Image
+									src={page.data.user.image}
+									referrerpolicy="no-referrer"
+									alt={page.data.user.name}
+								/>
 							{:else}
-								<Avatar.Fallback class="rounded-lg">{page.data.user.registrationNumber[0]+page.data.user.registrationNumber[1]}</Avatar.Fallback>
+								<Avatar.Fallback class="rounded-lg">
+									{page.data.user.registrationNumber[0] + page.data.user.registrationNumber[1]}
+								</Avatar.Fallback>
 							{/if}
 						</Avatar.Root>
 						<div class="grid flex-1 text-left text-sm leading-tight">
@@ -50,9 +65,15 @@
 					<div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 						<Avatar.Root class="h-8 w-8 rounded-lg">
 							{#if page.data.user.image}
-								<Avatar.Image src={page.data.user.image} referrerpolicy="no-referrer" alt={page.data.user.name} />
+								<Avatar.Image
+									src={page.data.user.image}
+									referrerpolicy="no-referrer"
+									alt={page.data.user.name}
+								/>
 							{:else}
-								<Avatar.Fallback class="rounded-lg">{page.data.user.registrationNumber[0]+page.data.user.registrationNumber[1]}</Avatar.Fallback>
+								<Avatar.Fallback class="rounded-lg">
+									{page.data.user.registrationNumber[0] + page.data.user.registrationNumber[1]}
+								</Avatar.Fallback>
 							{/if}
 						</Avatar.Root>
 						<div class="grid flex-1 text-left text-sm leading-tight">
@@ -84,10 +105,12 @@
 					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
-				<DropdownMenu.Item>
-					<LogOut />
-					Log out
-				</DropdownMenu.Item>
+				<form method="post" action="/api/logout" use:enhance>
+					<DropdownMenu.Item>
+						<LogOut />
+						Log out
+					</DropdownMenu.Item>
+				</form>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 	</Sidebar.MenuItem>

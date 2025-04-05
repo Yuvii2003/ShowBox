@@ -27,15 +27,17 @@ export const session = pgTable('session', {
 });
 
 export const project = pgTable('project', {
-	id: text('id').primaryKey().notNull(),
-	awsId: text('aws_id').notNull(),
+	id: text('id')
+		.primaryKey()
+		.notNull()
+		.default(sql`gen_random_uuid()`),
 	userId: text('user_id')
 		.notNull()
 		.references(() => user.id),
 	name: text('name').notNull(),
 	description: text('description').notNull(),
 	contributors: text('contributors').array().notNull(),
-	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+	s3_prefix: text('aws_id').notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
 });
 

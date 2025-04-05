@@ -1,9 +1,7 @@
-<script>
-	// project name
-	// project description
-	// project folder
-	// contributors
-	// last updated
+<script lang="ts">
+	import type { PageData } from './$types.js';
+	import SettingsForm from '$lib/components/custom/projects/upload/form-settings.svelte';
+	let { data }: { data: PageData } = $props();
 </script>
 
-<h1>hello</h1>
+<SettingsForm {data} />
