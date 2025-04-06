@@ -60,9 +60,9 @@
 									<Sidebar.MenuSubItem>
 										<Sidebar.MenuSubButton>
 											{#snippet child({ props })}
-												<a href={item.url} {...props}>
+												<button {...props} onclick={() => (window.location.href = item.url)}>
 													<span>{item.title}</span>
-												</a>
+												</button>
 											{/snippet}
 										</Sidebar.MenuSubButton>
 									</Sidebar.MenuSubItem>

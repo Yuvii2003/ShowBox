@@ -1,8 +1,12 @@
-import { Collapsible as CollapsiblePrimitive } from "bits-ui";
+/*
+	Installed from github/ieedan/shadcn-svelte-extras
+*/
 
-const Root: typeof CollapsiblePrimitive.Root = CollapsiblePrimitive.Root;
-const Trigger: typeof CollapsiblePrimitive.Trigger = CollapsiblePrimitive.Trigger;
-const Content: typeof CollapsiblePrimitive.Content = CollapsiblePrimitive.Content;
+import { Collapsible as CollapsiblePrimitive } from 'bits-ui';
+
+const Root = CollapsiblePrimitive.Root;
+const Trigger = CollapsiblePrimitive.Trigger;
+const Content = CollapsiblePrimitive.Content;
 
 export {
 	Root,
@@ -11,5 +15,5 @@ export {
 	//
 	Root as Collapsible,
 	Content as CollapsibleContent,
-	Trigger as CollapsibleTrigger,
+	Trigger as CollapsibleTrigger
 };

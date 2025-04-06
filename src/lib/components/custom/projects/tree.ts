@@ -1,32 +1,56 @@
-// src/lib/tree.ts
-
-export type FileTree = {
-	[name: string]: FileTree | null;
+export type TreeNode = {
+	name: string;
+	fileAWSKey: string;
+	children?: TreeNode[];
 };
 
-/**
- * Converts array of path segments into a nested file tree object.
- * @param paths - List of file paths represented as string arrays.
- */
-export function buildTree(paths: string[][]): FileTree {
-	const root: FileTree = {};
+export type FileType = {
+	fileArray: string[];
+	fileAWSKey: string;
+};
 
-	for (const path of paths) {
-		let current: FileTree = root;
+export function buildTree(files: FileType[]): TreeNode[] {
+	const root: TreeNode[] = [];
+
+	for (const file of files) {
+		const path = file.fileArray;
+		let current = root;
 
 		for (let i = 0; i < path.length; i++) {
-			const part = path[i];
-			const isFile = i === path.length - 1;
+			const segment = path[i];
+			let existing = current.find((node) => node.name === segment);
 
-			if (!(part in current)) {
-				current[part] = isFile ? null : {};
+			if (!existing) {
+				existing = {
+					name: segment,
+					fileAWSKey: i === path.length - 1 ? file.fileAWSKey : ''
+				};
+				current.push(existing);
 			}
 
-			if (!isFile && current[part] !== null) {
-				current = current[part] as FileTree;
+			if (i < path.length - 1) {
+				if (!existing.children) existing.children = [];
+				current = existing.children;
 			}
 		}
 	}
 
+	const sortTree = (nodes: TreeNode[]) => {
+		nodes.sort((a, b) => {
+			const isAFolder = !!a.children;
+			const isBFolder = !!b.children;
+
+			if (isAFolder && !isBFolder) return -1;
+			if (!isAFolder && isBFolder) return 1;
+
+			return a.name.localeCompare(b.name);
+		});
+
+		for (const node of nodes) {
+			if (node.children) sortTree(node.children);
+		}
+	};
+
+	sortTree(root);
 	return root;
 }

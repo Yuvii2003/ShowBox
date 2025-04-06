@@ -29,6 +29,8 @@
 			</div>
 		</header>
 		<Separator />
-		{@render children()}
+		
+			{@render children()}
+		
 	</Sidebar.Inset>
 </Sidebar.Provider>
