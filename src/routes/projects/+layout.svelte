@@ -28,6 +28,7 @@
 				</Breadcrumb.Root>
 			</div>
 		</header>
+		<Separator />
 		{@render children()}
 	</Sidebar.Inset>
 </Sidebar.Provider>
