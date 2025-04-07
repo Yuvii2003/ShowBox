@@ -26,7 +26,7 @@
 	type Props = {
 		variant?: Variant;
 		lang?: SupportedLanguage;
-		code: string;
+		code: string | null;
 		class?: string;
 		copyButtonContainerClass?: string;
 		hideLines?: boolean;
@@ -72,7 +72,7 @@
 
 	const highlighted = $derived(
 		DOMPurify.sanitize(
-			hl?.codeToHtml(code, {
+			hl?.codeToHtml(code?code:"", {
 				lang: lang,
 				themes: {
 					light: 'github-light-default',
@@ -98,7 +98,7 @@
 						}
 					}
 				]
-			}) ?? code
+			}) ?? (code?code:"")
 		)
 	);
 
@@ -116,7 +116,7 @@
 				copyButtonContainerClass
 			)}
 		>
-			<CopyButton text={code} />
+			<CopyButton text={code||""} />
 		</div>
 	{/if}
 </div>

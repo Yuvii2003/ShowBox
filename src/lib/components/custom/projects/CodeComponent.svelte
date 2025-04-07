@@ -8,7 +8,7 @@
 
 <div class="flex flex-col gap-y-4">
 	<code class="">
-		{currentFile.name}
+		{currentFile.name || "SOURCE CODE"} 
 	</code>
 	<Code lang={fileExtension} class="w-full" bind:code={currentFile.code as string} />
 </div>

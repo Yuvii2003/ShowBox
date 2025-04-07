@@ -3,25 +3,14 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { useSidebar } from '$lib/components/ui/sidebar/index.js';
-	import BadgeCheck from '@lucide/svelte/icons/badge-check';
-	import Bell from '@lucide/svelte/icons/bell';
-	import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down';
-	import CreditCard from '@lucide/svelte/icons/credit-card';
-	import LogOut from '@lucide/svelte/icons/log-out';
-	import Sparkles from '@lucide/svelte/icons/sparkles';
-	// import { toast } from 'svelte-sonner';
+	import {BadgeCheck,Bell,ChevronsUpDown,CreditCard,LogOut,Sparkles} from '@lucide/svelte';
+	
+	
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
 
 	const sidebar = useSidebar();
-	// async function handleLogout() {
-	// 	const res = await fetch('/api/logout');
-	// 	if (res.ok) {
-	// 		toast.success('User logged out!');
-	// 		page.data.user = null;
-	// 		window.location.reload();
-	// 	}
-	// }
+	
 </script>
 
 <Sidebar.Menu>
@@ -106,10 +95,12 @@
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
 				<form method="post" action="/api/logout" use:enhance>
-					<DropdownMenu.Item>
-						<LogOut />
-						Log out
-					</DropdownMenu.Item>
+					<button class="w-full" type="submit">
+						<DropdownMenu.Item>
+							<LogOut />
+							Log out
+						</DropdownMenu.Item>
+					</button>
 				</form>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
