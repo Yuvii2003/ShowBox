@@ -1,13 +1,16 @@
 <script lang="ts">
-	import { Header, Hero, Features, HowItWorks, Footer } from '$lib/components/custom/root';
+	import { Header, Hero, Features, HowItWorks, Footer, Cta, ProjectShowcase } from '$lib/components/custom/root';
+
 </script>
 
 <div class="flex flex-col min-h-screen overflow-auto">
 	<Header />
 	<main>
-		<Hero />
+        <Hero />
+        <ProjectShowcase />
 		<Features />
-		<HowItWorks />
+        <HowItWorks />  
+        <Cta />
 	</main>
 	<Footer />
 </div>
