@@ -32,7 +32,8 @@ const bundledLanguages = {
 	docker: () => import('@shikijs/langs/docker'),
 	mdx: () => import('@shikijs/langs/mdx'),
 	md: () => import('@shikijs/langs/md'),
-	log: () => import('@shikijs/langs/log')
+	log: () => import('@shikijs/langs/log'),
+	cs: () => import('@shikijs/langs/cs')
 };
 
 export const bundledLanguagesKeys = Object.keys(bundledLanguages) as Array<
