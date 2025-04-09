@@ -8,6 +8,7 @@ import { Buffer } from 'buffer';
 import { zod } from 'sveltekit-superforms/adapters';
 import { db, s3 } from '$lib/server/db/index.js';
 import { project } from '$lib/server/db/schema.js';
+import { AWS_BUCKET_NAME } from '$env/static/private';
 
 export const load: PageServerLoad = async () => {
 	return {
@@ -29,7 +30,7 @@ export const actions: Actions = {
 			const buffer = await file.arrayBuffer();
 
 			const uploadCommand = new PutObjectCommand({
-				Bucket: 'showbox-files',
+				Bucket: AWS_BUCKET_NAME,
 				Key: `${s3_prefix}${key}`,
 				Body: Buffer.from(buffer),
 				ContentType: file.type
@@ -49,6 +50,6 @@ export const actions: Actions = {
 			})
 			.returning();
 		console.log(newProject);
-		return message(form, { message: 'Posted OK!', id: 5 });
+		return message(form, { message: 'Posted OK!', id: newProject.id });
 	}
 };
