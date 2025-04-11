@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const userType = pgEnum('user_type', ['student', 'faculty', 'admin']);
 export const oauthType = pgEnum('oauth_type', ['google', 'microsoft']);
@@ -36,8 +36,10 @@ export const project = pgTable('project', {
 		.references(() => user.id),
 	name: text('name').notNull(),
 	description: text('description').notNull(),
+	image: text('image'),
 	contributors: text('contributors').array().notNull(),
 	s3_prefix: text('aws_id').notNull(),
+	starred: boolean('starred').default(false).notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
 });
 

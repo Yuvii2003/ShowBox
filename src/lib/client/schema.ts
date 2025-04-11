@@ -23,7 +23,12 @@ export const projectUpload = z.object({
 			{
 				message: 'Please upload at least one file.'
 			}
-		)
+		),
+	image: z
+		.instanceof(File, { message: 'Please upload an image.' })
+		.refine((file) => file.size <= 5 * 1024 * 1024, {
+			message: 'Image must be less than 5MB'
+		})
 });
 
 export type ProjectUpload = typeof projectUpload;

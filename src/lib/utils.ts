@@ -22,10 +22,10 @@ export async function parseFile(file: File): Promise<string[]> {
 export function filterIgnoredFiles(files: File[], ignoredPatterns: string[]) {
 	return files.filter((f) => {
 		const filePath = f.webkitRelativePath || f.name;
-		const fileSize = f.size;
-		if (fileSize === 0) {
-			console.log('File is empty:', filePath);
-		}
+		// const fileSize = f.size;
+		// if (fileSize === 0) {
+		// 	console.log('File is empty:', filePath);
+		// }
 		return !ignoredPatterns.some((pattern) => {
 			// Remove leading and trailing slashes
 			pattern = pattern.replace(/^\/|\/$/g, '');

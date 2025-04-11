@@ -23,16 +23,11 @@
 		return file.fileArray.length > 0;
 	});
 	const filePaths = buildTree(allProjectFiles as FileType[]);
-	const sidebar = useSidebar();
-	$inspect(currentFile);
 </script>
 
-<main
-	class="flex h-full"
-	style={`width: calc(100vw - var(${sidebar.state === 'collapsed' ? '--sidebar-width-icon' : '--sidebar-width'}))`}
->
+<main class="flex h-full overflow-hidden">
 	<div class="w-1/4 p-4 h-[calc(100vh-90px)]">
-		<h2 class="text-xl font-bold mb-4">🗂️ {data.projectDetails.name}</h2>
+		<h2 class="text-xl font-bold pb-4">🗂️ {data.projectDetails.name}</h2>
 		<TreeViewComponent {filePaths} />
 	</div>
 	<Separator orientation="vertical" />

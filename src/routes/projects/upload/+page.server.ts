@@ -20,7 +20,6 @@ export const actions: Actions = {
 	default: async ({ request, locals }) => {
 		const form = await superValidate(request, zod(projectUpload));
 		if (!form.valid) {
-			console.log('this is called');
 			return fail(400, { form });
 		}
 		const s3_prefix = `${locals.user?.registrationNumber}/${form.data.projectName}/`;
@@ -49,7 +48,6 @@ export const actions: Actions = {
 				s3_prefix
 			})
 			.returning();
-		console.log(newProject);
 		return message(form, { message: 'Posted OK!', id: newProject.id });
 	}
 };

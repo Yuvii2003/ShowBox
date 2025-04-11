@@ -2,7 +2,13 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { projectUpload, type ProjectUpload } from '$lib/client/schema';
-	import { type SuperValidated, type Infer, superForm, filesProxy } from 'sveltekit-superforms';
+	import {
+		type SuperValidated,
+		type Infer,
+		superForm,
+		filesProxy,
+		fileProxy
+	} from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { parseFile, filterIgnoredFiles } from '$lib/utils';
 	import { toast } from 'svelte-sonner';
@@ -53,6 +59,7 @@
 		$formData.files = filterIgnoredFiles($formData.files, ignoredPatterns);
 		toast.success('Files processed successfully', { id: toastId });
 	}
+	const file = fileProxy(form, 'image');
 </script>
 
 <form method="POST" use:enhance class="pl-6 pr-40" enctype="multipart/form-data">
@@ -88,6 +95,17 @@
 		<Form.FieldErrors />
 	</Form.Field>
 
+	<Form.Field {form} name="image">
+		<Form.Control>
+			{#snippet children({ props })}
+				<Form.Label>Project Picture</Form.Label>
+				<Input {...props} bind:files={$file} type="file" accept="image/*" />
+			{/snippet}
+		</Form.Control>
+		<Form.Description>Demo Picture of project.</Form.Description>
+		<Form.FieldErrors />
+	</Form.Field>
+
 	<Form.Field {form} name="description">
 		<Form.Control>
 			{#snippet children({ props })}
@@ -110,5 +128,5 @@
 		<Form.FieldErrors />
 	</Form.Field>
 
-	<Form.Button>Submit</Form.Button>
+	<Form.Button class="mt-1">Submit</Form.Button>
 </form>

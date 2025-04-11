@@ -2,7 +2,6 @@
 	import { Root } from '$lib/components/ui/tree-view';
 	import Node from './Node.svelte';
 	import type { TreeNode } from './tree';
-
 	let { filePaths }: { filePaths: TreeNode[] } = $props();
 </script>
 

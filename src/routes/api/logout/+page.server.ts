@@ -3,7 +3,6 @@ import { fail, redirect, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	default: async (event) => {
-		console.log('Logging out...');
 		if (!event.locals.session) {
 			return fail(401);
 		}

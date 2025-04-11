@@ -2,9 +2,16 @@
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import ChevronRight from '@lucide/svelte/icons/chevron-right';
-	import { FolderCheck, Search, Star } from '@lucide/svelte';
+	import {
+		FolderCheck,
+		FolderSearch2,
+		Star,
+		UserRoundSearch,
+		CircleFadingPlus
+	} from '@lucide/svelte';
 	import { page } from '$app/state';
 	import type { Project as ProjectType } from '$lib/server/db/schema';
+	import { goto } from '$app/navigation';
 
 	let myProjects = (page.data.allUserProjects as ProjectType[]).map((project: ProjectType) => {
 		return {
@@ -36,93 +43,57 @@
 	<Sidebar.Menu>
 		<!-- My Projects -->
 
-		<Collapsible.Root class="group/collapsible">
-			{#snippet child({ props })}
-				<Sidebar.MenuItem {...props}>
-					<Collapsible.Trigger>
-						{#snippet child({ props })}
-							<Sidebar.MenuButton {...props}>
-								{#snippet tooltipContent()}
-									My Projects
-								{/snippet}
-								<FolderCheck />
-								<span>My Projects</span>
-								<ChevronRight
-									class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-								/>
-							</Sidebar.MenuButton>
-						{/snippet}
-					</Collapsible.Trigger>
-					<Collapsible.Content>
-						{#if myProjects}
-							<Sidebar.MenuSub>
-								{#each myProjects as item (item.title)}
-									<Sidebar.MenuSubItem>
-										<Sidebar.MenuSubButton>
-											{#snippet child({ props })}
-												<button {...props} onclick={() => (window.location.href = item.url)}>
-													<span>{item.title}</span>
-												</button>
-											{/snippet}
-										</Sidebar.MenuSubButton>
-									</Sidebar.MenuSubItem>
-								{/each}
-							</Sidebar.MenuSub>
-						{/if}
-					</Collapsible.Content>
-				</Sidebar.MenuItem>
-			{/snippet}
-		</Collapsible.Root>
+		<Sidebar.MenuItem>
+			<Sidebar.MenuButton onclick={() => goto('/projects')}>
+				{#snippet tooltipContent()}
+					My Projects
+				{/snippet}
+				<FolderCheck />
+				<span>My Projects</span>
+			</Sidebar.MenuButton>
+		</Sidebar.MenuItem>
 
 		<!-- Starred Projects -->
 
-		<Collapsible.Root class="group/collapsible">
-			{#snippet child({ props })}
-				<Sidebar.MenuItem {...props}>
-					<Collapsible.Trigger>
-						{#snippet child({ props })}
-							<Sidebar.MenuButton {...props}>
-								{#snippet tooltipContent()}
-									Starred Projects
-								{/snippet}
-								<Star />
-								<span>Starred Projects</span>
-								<ChevronRight
-									class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-								/>
-							</Sidebar.MenuButton>
-						{/snippet}
-					</Collapsible.Trigger>
-					<Collapsible.Content>
-						{#if starredProjects.items}
-							<Sidebar.MenuSub>
-								{#each starredProjects.items as item (item.title)}
-									<Sidebar.MenuSubItem>
-										<Sidebar.MenuSubButton>
-											{#snippet child({ props })}
-												<a href={item.url} {...props}>
-													<span>{item.title}</span>
-												</a>
-											{/snippet}
-										</Sidebar.MenuSubButton>
-									</Sidebar.MenuSubItem>
-								{/each}
-							</Sidebar.MenuSub>
-						{/if}
-					</Collapsible.Content>
-				</Sidebar.MenuItem>
-			{/snippet}
-		</Collapsible.Root>
+		<Sidebar.MenuItem>
+			<Sidebar.MenuButton onclick={() => goto('/projects/starred')}>
+				{#snippet tooltipContent()}
+					Starred Projects
+				{/snippet}
+				<FolderCheck />
+				<span>Starred Projects</span>
+			</Sidebar.MenuButton>
+		</Sidebar.MenuItem>
 
 		<!-- Search Projects -->
 
 		<Sidebar.MenuItem>
-			<Sidebar.MenuButton>
+			<Sidebar.MenuButton onclick={() => goto('/projects/search')}>
 				{#snippet tooltipContent()}
 					Search a Project
 				{/snippet}
-				<Search />
+				<FolderSearch2 />
 				<span>Search a Project</span>
+			</Sidebar.MenuButton>
+		</Sidebar.MenuItem>
+		{#if page.data.user.userType === 'faculty' || page.data.user.userType === 'admin'}
+			<Sidebar.MenuItem>
+				<Sidebar.MenuButton onclick={() => goto('/projects/search-student')}>
+					{#snippet tooltipContent()}
+						Search a Student
+					{/snippet}
+					<UserRoundSearch />
+					<span>Search a Student</span>
+				</Sidebar.MenuButton>
+			</Sidebar.MenuItem>
+		{/if}
+		<Sidebar.MenuItem>
+			<Sidebar.MenuButton onclick={() => goto('/projects/upload')}>
+				{#snippet tooltipContent()}
+					Upload a new project
+				{/snippet}
+				<CircleFadingPlus />
+				<span>Upload a Project</span>
 			</Sidebar.MenuButton>
 		</Sidebar.MenuItem>
 	</Sidebar.Menu>

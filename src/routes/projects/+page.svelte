@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { CirclePlus, Plus } from '@lucide/svelte';
-	let isProjects = $state(false);
+	import { Plus } from '@lucide/svelte';
+	import type { PageData } from './$types';
+	import ProjectCard from '$lib/components/custom/ProjectCard.svelte';
+	let { data }: { data: PageData } = $props();
 </script>
 
-{#if isProjects}
-	<div class="flex flex-col gap-4 flex-1 px-10 py-8">
-		<div class="flex justify-end">
-			<Button size="sm" href="/projects/upload">
-				<CirclePlus />
-				Create ShowBox
-			</Button>
-		</div>
+{#if data.projects.length > 0}
+	<div class="flex gap-6 px-8 py-6 flex-wrap justify-between">
+		{#each data.projects as project (project.id)}
+			<ProjectCard {project} />
+		{/each}
 	</div>
 {:else}
 	<div class="flex flex-1 gap-4 px-10">

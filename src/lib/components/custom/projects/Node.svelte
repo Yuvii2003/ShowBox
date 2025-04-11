@@ -3,9 +3,9 @@
 	import Node from './Node.svelte';
 	import type { TreeNode } from './tree';
 
-	let { node }: { node: TreeNode } = $props();
 	import { currentFile } from '$lib/store.svelte';
 	import { toast } from 'svelte-sonner';
+	let { node }: { node: TreeNode } = $props();
 	async function handleFileCode() {
 		currentFile.name = node.name;
 		currentFile.fileAWSKey = node.fileAWSKey;
@@ -24,7 +24,7 @@
 {#if node.children}
 	<Folder name={node.name} open={false}>
 		{#each node.children as child (child.name)}
-			<Node node={child} />
+			<Node node={child}></Node>
 		{/each}
 	</Folder>
 {:else}
