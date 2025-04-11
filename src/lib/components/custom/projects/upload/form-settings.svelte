@@ -99,7 +99,7 @@
 		<Form.Control>
 			{#snippet children({ props })}
 				<Form.Label>Project Picture</Form.Label>
-				<Input {...props} bind:files={$file} type="file" accept="image/*" />
+				<Input {...props} bind:files={$file} type="file" accept="image/png" />
 			{/snippet}
 		</Form.Control>
 		<Form.Description>Demo Picture of project.</Form.Description>
