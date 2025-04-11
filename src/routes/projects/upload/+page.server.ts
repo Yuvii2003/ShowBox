@@ -2,7 +2,7 @@ import { message, fail } from 'sveltekit-superforms';
 import { projectUpload } from '$lib/client/schema.js';
 import type { PageServerLoad, Actions } from './$types.js';
 import { superValidate } from 'sveltekit-superforms';
-import { PutObjectCommand, PutObjectAclCommand } from '@aws-sdk/client-s3';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { Buffer } from 'buffer';
 
 import { zod } from 'sveltekit-superforms/adapters';
@@ -34,15 +34,6 @@ export const actions: Actions = {
 			ContentType: form.data.image.type
 		});
 		await s3.send(uploadCommand);
-		await s3.send(
-			new PutObjectAclCommand({
-				Bucket: AWS_BUCKET_NAME,
-				Key: imageKey,
-				ACL: 'public-read'
-			})
-		);
-
-		const imageUrl = `https://${AWS_BUCKET_NAME}.s3.amazonaws.com/${imageKey}`;
 
 		const uploadPromises = form.data.files.map(async (file) => {
 			const key = file.webkitRelativePath || file.name;
@@ -66,7 +57,7 @@ export const actions: Actions = {
 				name: form.data.projectName,
 				description: form.data.description,
 				contributors: form.data.contributors.split(','),
-				image: imageUrl,
+				image: imageKey,
 				s3_prefix
 			})
 			.returning();
