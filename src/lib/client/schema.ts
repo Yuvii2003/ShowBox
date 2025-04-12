@@ -16,14 +16,9 @@ export const projectUpload = z.object({
 	files: z
 		.instanceof(File, { message: 'Please upload a file.' })
 		.array()
-		.refine(
-			(files) => {
-				return files.length > 0;
-			},
-			{
-				message: 'Please upload at least one file.'
-			}
-		),
+		.refine((files) => files.length > 0, {
+			message: 'Please upload at least one file.'
+		}),
 	image: z
 		.instanceof(File, { message: 'Please upload an image.' })
 		.refine((file) => file.size <= 5 * 1024 * 1024, {

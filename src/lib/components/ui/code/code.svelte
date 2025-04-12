@@ -72,7 +72,7 @@
 
 	const highlighted = $derived(
 		DOMPurify.sanitize(
-			hl?.codeToHtml(code?code:"", {
+			hl?.codeToHtml(code ? code : '', {
 				lang: lang,
 				themes: {
 					light: 'github-light-default',
@@ -98,7 +98,7 @@
 						}
 					}
 				]
-			}) ?? (code?code:"")
+			}) ?? (code ? code : '')
 		)
 	);
 
@@ -116,7 +116,7 @@
 				copyButtonContainerClass
 			)}
 		>
-			<CopyButton text={code||""} />
+			<CopyButton text={code || ''} />
 		</div>
 	{/if}
 </div>

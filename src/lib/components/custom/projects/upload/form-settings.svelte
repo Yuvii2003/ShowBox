@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
+	import JSZip from 'jszip';
 	import { projectUpload, type ProjectUpload } from '$lib/client/schema';
 	import {
 		type SuperValidated,
@@ -26,43 +27,72 @@
 	});
 	const { form: formData, enhance } = form;
 	const uploadedFiles = filesProxy(formData, 'files');
-	async function handleChange(e: Event) {
-		const toastId = toast.loading('Processing files...');
-		const target = e.target as HTMLInputElement;
-		if (!target.files) return;
-		const currentFiles = Array.from(target.files);
-		const gitignoreFile = currentFiles.find(
-			(file) => file.name === '.gitignore' || file.webkitRelativePath?.endsWith('/.gitignore')
-		);
-		$formData.files = currentFiles.map((file) => {
-			if (file.size === 0) {
-				const dummyContent = new Blob(['// dummy\n'], { type: file.type || 'text/plain' });
-				const dummyFile = new File([dummyContent], file.name, {
-					type: file.type || 'text/plain',
-					lastModified: file.lastModified
-				});
-				return dummyFile;
-			} else {
-				return file;
-			}
-		});
-		if (!gitignoreFile) {
-			toast.warning(
-				'Warning: No .gitignore file found in the uploaded files. All files will be uploaded.',
-				{ duration: 3000 }
-			);
-			toast.success('Files processed successfully', { id: toastId, duration: 5000 });
+	const file = fileProxy(form, 'image');
+	async function handleZipUpload(e: Event) {
+		const toastId = toast.loading('Processing zip file...');
+		const input = e.target as HTMLInputElement;
+		if (!input.files || input.files.length === 0) return;
+
+		const zipFile = input.files[0];
+		if (!zipFile.name.endsWith('.zip')) {
+			toast.error('Please upload a valid .zip file');
 			return;
 		}
 
-		const ignoredPatterns = await parseFile(gitignoreFile);
-		$formData.files = filterIgnoredFiles($formData.files, ignoredPatterns);
-		toast.success('Files processed successfully', { id: toastId });
+		try {
+			const zip = await JSZip.loadAsync(zipFile);
+			const allFiles = Object.values(zip.files);
+			const fileList: File[] = [];
+
+			let ignoredPatterns: string[] = [];
+
+			const gitignoreEntry = allFiles.find((f) => f.name.endsWith('.gitignore'));
+			if (gitignoreEntry) {
+				const text = await gitignoreEntry.async('text');
+				const gitignoreBlob = new File([text], '.gitignore');
+				ignoredPatterns = await parseFile(gitignoreBlob);
+			} else {
+				toast.warning('No .gitignore found in zip. Uploading all files.');
+			}
+
+			for (const entry of allFiles) {
+				if (entry.dir) continue;
+
+				const tempFile = new File([], entry.name);
+				if (
+					ignoredPatterns.length > 0 &&
+					filterIgnoredFiles([tempFile], ignoredPatterns).length === 0
+				) {
+					continue;
+				}
+				const blob = await entry.async('blob');
+				let newFile = new File([blob], entry.name);
+				if (newFile.size === 0) {
+					const dummyContent = new Blob(['// dummy\n'], { type: newFile.type || 'text/plain' });
+					const dummyFile = new File([dummyContent], newFile.name, {
+						type: newFile.type || 'text/plain',
+						lastModified: newFile.lastModified
+					});
+					newFile = dummyFile;
+				}
+				fileList.push(newFile);
+			}
+
+			if (fileList.length === 0) {
+				toast.error('No valid files found after filtering.');
+				return;
+			}
+
+			$formData.files = fileList;
+			toast.success('Zip processed successfully!', { id: toastId });
+		} catch (err) {
+			toast.error('Error reading zip file');
+			console.error(err);
+		}
 	}
-	const file = fileProxy(form, 'image');
 </script>
 
-<form method="POST" use:enhance class="pl-6 pr-40" enctype="multipart/form-data">
+<form method="POST" use:enhance class="pl-6 pr-40 overflow-auto" enctype="multipart/form-data">
 	<Form.Field {form} name="files">
 		<Form.Control>
 			{#snippet children({ props })}
@@ -70,17 +100,16 @@
 				<Input
 					{...props}
 					type="file"
-					multiple
-					webkitdirectory
+					accept=".zip"
+					onchange={handleZipUpload}
 					bind:files={$uploadedFiles}
-					onchange={handleChange}
 				/>
 			{/snippet}
 		</Form.Control>
 		<Form.Description>
-			Upload your complete project. Folder and files listed in
-			<code class="bg-gray-800 p-1 rounded-sm text-white/80"> .gitignore </code> will be automatically
-			excluded.
+			Please upload a zip file of your project. Folder and files listed in
+			<code class="bg-gray-800 p-1 rounded-sm text-white/80"> .gitignore </code> file inside zip file
+			will be automatically excluded.
 		</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
@@ -99,7 +128,7 @@
 		<Form.Control>
 			{#snippet children({ props })}
 				<Form.Label>Project Picture</Form.Label>
-				<Input {...props} bind:files={$file} type="file" accept="image/png" />
+				<Input {...props} bind:files={$file} type="file" accept="image/*" />
 			{/snippet}
 		</Form.Control>
 		<Form.Description>Demo Picture of project.</Form.Description>

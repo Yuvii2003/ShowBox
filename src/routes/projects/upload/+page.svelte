@@ -6,7 +6,7 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<div class="flex justify-end px-10">
+<div class="flex justify-end px-10 pt-4">
 	<Button size="sm" href="/projects" class="flex items-center justify-center">
 		<ArrowLeftFromLine />
 		Back to Projects
