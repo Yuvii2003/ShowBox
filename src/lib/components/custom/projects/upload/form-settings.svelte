@@ -92,7 +92,7 @@
 	}
 </script>
 
-<form method="POST" use:enhance class="pl-6 pr-40 overflow-auto" enctype="multipart/form-data">
+<form method="POST" use:enhance class="pl-6 pr-40 overflow-auto my-4" enctype="multipart/form-data">
 	<Form.Field {form} name="files">
 		<Form.Control>
 			{#snippet children({ props })}

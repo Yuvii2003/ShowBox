@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import type { Project } from '$lib/server/db/schema';
 	import { onMount } from 'svelte';
+	import StarComponent from './StarComponent.svelte';
+	import { page } from '$app/state';
 
-	let { project }: { project: Project } = $props();
+	let { project }: { project: Project & { starredId: string | null } } = $props();
 	let projectImage = $state({
 		url: '/card-top.jpg',
 		alt: 'Sunset in the mountains'
@@ -25,12 +26,16 @@
 			fetchProjectImage();
 		}
 	});
+	let starred = $state<Boolean>(!!project.starredId);
 </script>
 
-<button
-	class="w-[18rem] rounded overflow-hidden shadow-lg ring-1 ring-gray-300 bg-accent"
-	onclick={() => goto(`/projects/${project.id}`)}
+<a
+	class="w-[18rem] rounded overflow-hidden shadow-lg ring-1 ring-gray-300 bg-accent relative group"
+	href={`/projects/${project.id}`}
 >
+	<div class="absolute right-4 top-4 hidden group-hover:block duration-300 ease-in-out z-50">
+		<StarComponent bind:starred projectId={project.id} userId={page.data.user.id} />
+	</div>
 	<img class="w-full h-32" src={projectImage.url} alt={projectImage.alt} />
 
 	<div class="font-bold text-xl my-2 text-center">{project.name}</div>
@@ -52,4 +57,4 @@
 			>
 		{/if}
 	</div>
-</button>
+</a>

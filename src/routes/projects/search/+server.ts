@@ -19,6 +19,5 @@ export async function GET({ url }) {
 	    `
 			)
 		);
-	console.log(projects);
 	return json(projects);
 }

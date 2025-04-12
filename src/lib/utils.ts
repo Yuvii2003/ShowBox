@@ -22,50 +22,19 @@ export async function parseFile(file: File): Promise<string[]> {
 export function filterIgnoredFiles(files: File[], ignoredPatterns: string[]) {
 	return files.filter((f) => {
 		const filePath = f.webkitRelativePath || f.name;
-		// const fileSize = f.size;
-		// if (fileSize === 0) {
-		// 	console.log('File is empty:', filePath);
-		// }
 		return !ignoredPatterns.some((pattern) => {
-			// Remove leading and trailing slashes
 			pattern = pattern.replace(/^\/|\/$/g, '');
-
-			// Escape special regex characters except * and ?
 			const regexPattern = pattern
-				.replace(/[.+^${}()|[\]\\]/g, '\\$&') // Escape regex special chars
-				.replace(/\*/g, '.*') // * becomes .* (any characters)
-				.replace(/\?/g, '.'); // ? becomes . (single character)
+				.replace(/[.+^${}()|[\]\\]/g, '\\$&')
+				.replace(/\*/g, '.*')
+				.replace(/\?/g, '.');
 
-			// Check if pattern starts with /, which means it should match from root
 			const fullRegex = new RegExp(
 				pattern.startsWith('/') ? `^${regexPattern}$` : `(^|/)${regexPattern}($|/)`,
-				'i' // Case insensitive
+				'i'
 			);
 
 			return fullRegex.test(filePath);
 		});
 	});
 }
-
-// async function handleFilter() {
-// 	try {
-// 		const toastId = toast.loading('Loading files...');
-// 		const gitignoreFile = $formData.files.find(
-// 			(file) => file.name === '.gitignore' || file.webkitRelativePath?.endsWith('/.gitignore')
-// 		);
-// 		if (!gitignoreFile) {
-// 			toast.success('Files filtered successfully!', { id: toastId });
-// 			return;
-// 		}
-
-// 		const ignoredPatterns = await parseGitignore(gitignoreFile);
-// 		const filteredFiles = filterIgnoredFiles($formData.files, ignoredPatterns);
-// 		$formData.files = filteredFiles;
-// 		console.log($files);
-// 		console.log($formData.files);
-// 		toast.success('Files filtered successfully!', { id: toastId });
-// 	} catch (error) {
-// 		console.error('Error filtering files:', error);
-// 		toast.error('Error filtering files: ');
-// 	}
-// }

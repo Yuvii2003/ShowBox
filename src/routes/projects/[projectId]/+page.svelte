@@ -4,6 +4,7 @@
 	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
 	import { Button } from '$lib/components/ui/button';
 	import { FileCode2 } from '@lucide/svelte';
+	import StarComponent from '$lib/components/custom/StarComponent.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -12,7 +13,6 @@
 		alt: 'Sunset in the mountains'
 	});
 	async function fetchProjectImage() {
-		console.log(data.projectData);
 		const res = await fetch(`/api/get-project-image?imageKey=${data.projectData.image}`);
 		if (res.ok) {
 			const result = await res.json();
@@ -29,6 +29,7 @@
 			fetchProjectImage();
 		}
 	});
+	let starred = $state(data.isStarred);
 </script>
 
 <div class="flex justify-between gap-x-2 py-8 px-10">
@@ -60,7 +61,13 @@
 			{data.projectData.description}
 		</ScrollArea>
 	</div>
-	<div class="w-[45%] h-80 ring-1 ring-gray-300 rounded-lg overflow-hidden">
-		<img src={projectImage.url} alt={projectImage.alt} class="h-full w-full rounded-lg" />
+	<div class="w-[45%] flex flex-col gap-y-4">
+		<div class="flex justify-end">
+			<StarComponent bind:starred projectId={data.projectData.id} userId={data.user.id} />
+		</div>
+
+		<div class="h-80 ring-1 ring-gray-300 rounded-lg overflow-hidden">
+			<img src={projectImage.url} alt={projectImage.alt} class="h-full w-full rounded-lg" />
+		</div>
 	</div>
 </div>
