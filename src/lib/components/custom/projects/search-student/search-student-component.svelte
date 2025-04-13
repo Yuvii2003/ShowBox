@@ -17,7 +17,12 @@
 	<div class="relative">
 		<input
 			class="w-full bg-transparent placeholder:text-slate-400 dark:placeholder:text-slate-300 text-slate-700 dark:text-white text-sm border border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-			placeholder="search a project..."
+			placeholder="search a student..."
+			onkeypress={(e) => {
+				if (e.key === 'Enter') {
+					handleClick();
+				}
+			}}
 			bind:value={searchQuery}
 		/>
 		<button

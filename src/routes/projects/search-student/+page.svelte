@@ -1,9 +1,12 @@
 <script lang="ts">
 	import ProjectCard from '$lib/components/custom/ProjectCard.svelte';
 	import SearchStudentComponent from '$lib/components/custom/projects/search-student/search-student-component.svelte';
-	import type { Project } from '$lib/server/db/schema';
-	let projects = $state<Project[] | null>([]);
+	import type { CustomProject } from '$lib/server/db/schema';
+	let projects = $state<CustomProject[] | null>([]);
 </script>
+
+<h3 class="px-6 pt-6 font-semibold text-2xl">Search Projects</h3>
+<p class="px-6 pt-2 text-gray-500">Search for projects by student's registration number.</p>
 
 <div class="w-full flex justify-center mt-10">
 	<SearchStudentComponent bind:projects />

@@ -72,3 +72,5 @@ export type NewProject = typeof project.$inferInsert;
 
 export type StarredProject = typeof starredProject.$inferSelect;
 export type NewStarredProject = typeof starredProject.$inferInsert;
+
+export type CustomProject = Project & { starredId: string | null };

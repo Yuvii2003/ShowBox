@@ -4,6 +4,8 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
+<h3 class="px-8 pt-6 font-semibold text-2xl">Starred Projects</h3>
+
 {#if data.starredProjects && data.starredProjects.length > 0}
 	<div class="flex gap-6 px-8 py-6 flex-wrap justify-between">
 		{#each data.starredProjects as project (project.id)}

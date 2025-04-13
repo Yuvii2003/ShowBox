@@ -1,10 +1,9 @@
 <script lang="ts">
-	import type { Project } from '$lib/server/db/schema';
 	import { onMount } from 'svelte';
 	import StarComponent from './StarComponent.svelte';
 	import { page } from '$app/state';
-
-	let { project }: { project: Project & { starredId: string | null } } = $props();
+	import type { CustomProject } from '$lib/server/db/schema';
+	let { project }: { project: CustomProject } = $props();
 	let projectImage = $state({
 		url: '/card-top.jpg',
 		alt: 'Sunset in the mountains'

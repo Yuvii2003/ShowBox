@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
+	import { Textarea } from '$lib/components/ui/textarea/index.js';
 	import JSZip from 'jszip';
 	import { projectUpload, type ProjectUpload } from '$lib/client/schema';
 	import {
@@ -93,6 +94,21 @@
 </script>
 
 <form method="POST" use:enhance class="pl-6 pr-40 overflow-auto my-4" enctype="multipart/form-data">
+	<Form.Field {form} name="projectName">
+		<Form.Control>
+			{#snippet children({ props })}
+				<Form.Label>Project Name</Form.Label>
+				<Input
+					{...props}
+					bind:value={$formData.projectName}
+					placeholder="Eg. - Traffic Light Detector..."
+				/>
+			{/snippet}
+		</Form.Control>
+		<Form.Description>Give your project a name.</Form.Description>
+		<Form.FieldErrors />
+	</Form.Field>
+
 	<Form.Field {form} name="files">
 		<Form.Control>
 			{#snippet children({ props })}
@@ -113,16 +129,6 @@
 		</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
-	<Form.Field {form} name="projectName">
-		<Form.Control>
-			{#snippet children({ props })}
-				<Form.Label>Project Name</Form.Label>
-				<Input {...props} bind:value={$formData.projectName} />
-			{/snippet}
-		</Form.Control>
-		<Form.Description>Give your project a name.</Form.Description>
-		<Form.FieldErrors />
-	</Form.Field>
 
 	<Form.Field {form} name="image">
 		<Form.Control>
@@ -139,7 +145,11 @@
 		<Form.Control>
 			{#snippet children({ props })}
 				<Form.Label>Project Description</Form.Label>
-				<Input {...props} bind:value={$formData.description} />
+				<Textarea
+					{...props}
+					bind:value={$formData.description}
+					placeholder="Eg. - A traffic light visualizer made using Python and Keras."
+				/>
 			{/snippet}
 		</Form.Control>
 		<Form.Description>Describe your project.</Form.Description>
@@ -150,12 +160,18 @@
 		<Form.Control>
 			{#snippet children({ props })}
 				<Form.Label>Project Contributors</Form.Label>
-				<Input {...props} bind:value={$formData.contributors} />
+				<Input
+					{...props}
+					bind:value={$formData.contributors}
+					placeholder="Eg. - Bruce Banner,Peter Parker,Tony Stark,Steve Rogers"
+				/>
 			{/snippet}
 		</Form.Control>
-		<Form.Description>List contributors separated by commas.</Form.Description>
+		<Form.Description
+			>List contributors separated by commas.(Don't include spaces between commas and names)</Form.Description
+		>
 		<Form.FieldErrors />
 	</Form.Field>
 
-	<Form.Button class="mt-1">Submit</Form.Button>
+	<Form.Button class="mt-1" size="sm">Submit</Form.Button>
 </form>
