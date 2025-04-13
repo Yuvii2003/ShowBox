@@ -4,8 +4,6 @@
 	import CodeComponent from '$lib/components/custom/projects/CodeComponent.svelte';
 	import { Separator } from '$lib/components/ui/separator/index';
 	import type { PageData } from './$types';
-	import { currentFile } from '$lib/store.svelte';
-	import { useSidebar } from '$lib/components/ui/sidebar';
 
 	let { data }: { data: PageData } = $props();
 	const allProjectFiles = data.allProjectFiles.Contents?.map((file) => {

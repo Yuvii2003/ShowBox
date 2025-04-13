@@ -5,6 +5,30 @@
 	import { Card } from '$lib/components/ui/card';
 
 	import { Search } from '@lucide/svelte';
+	const projects = [
+		{
+			title: 'Machine Learning Algorithm Visualizer',
+			description:
+				'Interactive tool for visualizing various ML algorithms and their decision boundaries.',
+			author: 'Alex Chen',
+			department: 'Computer Science',
+			language: 'Python'
+		},
+		{
+			title: 'Sustainable Architecture Models',
+			description: '3D models of eco-friendly building designs with renewable energy integration.',
+			author: 'Maya Johnson',
+			department: 'Architecture',
+			language: 'CAD'
+		},
+		{
+			title: 'Historical Data Analysis Tool',
+			description: 'Web application for analyzing and visualizing historical census data.',
+			author: 'James Wilson',
+			department: 'History',
+			language: 'JavaScript'
+		}
+	];
 </script>
 
 <section class="py-20 px-4 md:px-6 lg:px-8 bg-muted/40">
@@ -31,7 +55,7 @@
 		</div>
 
 		<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-			{#each [{ title: 'Machine Learning Algorithm Visualizer', description: 'Interactive tool for visualizing various ML algorithms and their decision boundaries.', author: 'Alex Chen', department: 'Computer Science', language: 'Python' }, { title: 'Sustainable Architecture Models', description: '3D models of eco-friendly building designs with renewable energy integration.', author: 'Maya Johnson', department: 'Architecture', language: 'CAD' }, { title: 'Historical Data Analysis Tool', description: 'Web application for analyzing and visualizing historical census data.', author: 'James Wilson', department: 'History', language: 'JavaScript' }] as project}
+			{#each projects as project}
 				<Card class="overflow-hidden flex flex-col">
 					<div class="h-40 bg-muted"></div>
 					<div class="p-5 flex flex-col gap-3 flex-1">

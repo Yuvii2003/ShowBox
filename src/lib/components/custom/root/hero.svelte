@@ -40,8 +40,12 @@ function ensureCollegeMember(userId) {
 				fostering collaboration within our academic community.
 			</p>
 			<div class="flex flex-col sm:flex-row gap-4 mt-2">
-				<Button size="lg">Explore Projects <ChevronRight class="ml-2 h-4 w-4" /></Button>
-				<Button variant="outline" size="lg">Join Community</Button>
+				<Button size="lg" href="/projects">
+					Explore Projects <ChevronRight class="ml-2 h-4 w-4" />
+				</Button>
+				<Button variant="outline" size="lg" href="https://vitbhopal.ac.in/" target="_blank">
+					Join Community
+				</Button>
 			</div>
 		</div>
 
