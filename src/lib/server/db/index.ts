@@ -13,7 +13,7 @@ import {
 	AWS_ACCESS_KEY_ID,
 	AWS_SECRET_ACCESS_KEY
 } from '$env/static/private';
-import { dev } from '$app/environment';
+import { dev, building } from '$app/environment';
 import { S3Client } from '@aws-sdk/client-s3';
 
 const client = postgres(DATABASE_URL);
@@ -25,8 +25,9 @@ export const google = new Google(
 	GOOGLE_CLIENT_SECRET,
 	dev
 		? 'http://localhost:5173/login/google/callback'
-		: 'https://showboxvit.vercel.app/login/google/callback'
-
+		: building
+			? 'http://localhost:4173/login/google/callback'
+			: 'https://showboxvit.vercel.app/login/google/callback'
 );
 
 export const microsoft = new MicrosoftEntraId(
@@ -35,7 +36,9 @@ export const microsoft = new MicrosoftEntraId(
 	MICROSOFT_CLIENT_SECRET,
 	dev
 		? 'http://localhost:5173/login/microsoft/callback'
-		: 'https://showboxvit.vercel.app/login/microsoft/callback'
+		: building
+			? 'http://localhost:4173/login/microsoft/callback'
+			: 'https://showboxvit.vercel.app/login/microsoft/callback'
 );
 
 export const s3 = new S3Client({
