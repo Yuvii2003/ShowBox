@@ -70,7 +70,7 @@
 
 	let hl = $state<HighlighterCore>();
 
-	const highlighted = $derived(
+	const highlighted = $derived.by(() =>
 		DOMPurify.sanitize(
 			hl?.codeToHtml(code ? code : '', {
 				lang: lang,
