@@ -27,7 +27,7 @@ export const google = new Google(
 		? 'http://localhost:5173/login/google/callback'
 		: building
 			? 'http://localhost:4173/login/google/callback'
-			: 'https://showboxvit.vercel.app/login/google/callback'
+			: 'https://showbox.onrender.com/login/google/callback'
 );
 
 export const microsoft = new MicrosoftEntraId(
@@ -38,7 +38,7 @@ export const microsoft = new MicrosoftEntraId(
 		? 'http://localhost:5173/login/microsoft/callback'
 		: building
 			? 'http://localhost:4173/login/microsoft/callback'
-			: 'https://showboxvit.vercel.app/login/microsoft/callback'
+			: 'https://showbox.onrender.com/login/microsoft/callback'
 );
 
 export const s3 = new S3Client({
