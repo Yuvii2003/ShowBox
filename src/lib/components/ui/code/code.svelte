@@ -6,7 +6,7 @@
 	import { cn } from '$lib/utils/utils';
 	import { tv, type VariantProps } from 'tailwind-variants';
 	import { highlighter, type SupportedLanguage } from './shiki';
-	import DOMPurify from 'dompurify';
+	import DOMPurify from 'isomorphic-dompurify';
 	import { onMount } from 'svelte';
 	import type { HighlighterCore } from 'shiki';
 	import { CopyButton } from '$lib/components/ui/copy-button';
